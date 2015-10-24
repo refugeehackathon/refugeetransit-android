@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         initPoiService();
         setupMapView();
-        addMarkers();
 
         mMapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -86,11 +84,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addMarkers() {
+    private void addMarkers(List<POI> pois) {
         final DefaultResourceProxyImpl resourceProxy = new DefaultResourceProxyImpl(getApplicationContext());
         final ArrayList<OverlayItem> items = new ArrayList<>();
-
-        final List<POI> pois = new POIProvider().getPOIS();
 
         for (POI poi : pois) {
             double latitude = poi.geometry.coordinates[0];
@@ -174,8 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onReadPoisSuccess(List<POI> pois) {
-        // TODO Here you can use the POIs.
-        Log.d(getClass().getName(), "POIs: " + pois);
+        addMarkers(pois);
     }
 
 }
