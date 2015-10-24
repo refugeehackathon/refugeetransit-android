@@ -12,3 +12,13 @@ have a safe journey and reach where they want to go and get back whenever it is 
 
 Create a *app/gradle.properties* and add the configuration parameters
 which are exposed in *app/build.gradle*.
+
+
+## License
+
+* The source code of this app is released under the [AGPL 3.0][agpl30]
+* Assets in this repository are released under the [Attribution-ShareAlike 4.0 International CC license][ccsa40]
+
+
+[agpl30]: https://www.gnu.org/licenses/agpl-3.0.html
+[ccsa40]: http://creativecommons.org/licenses/by-sa/4.0/
