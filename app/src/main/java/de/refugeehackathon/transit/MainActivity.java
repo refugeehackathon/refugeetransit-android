@@ -7,12 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 
 public class MainActivity extends AppCompatActivity {
     private MapView mMapView;
     private MapController mMapController;
+
+    public static final GeoPoint BERLIN = new GeoPoint(52.516667, 13.383333);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +31,9 @@ public class MainActivity extends AppCompatActivity {
         mMapView.setUseDataConnection(true);
         mMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);
 
-        /*
         mMapController = (MapController) mMapView.getController();
         mMapController.setZoom(13);
-        GeoPoint gPt = new GeoPoint(51500000, -150000);
-        mMapController.setCenter(gPt);
-*/
-
-
+        mMapController.setCenter(BERLIN);
     }
 
     @Override
