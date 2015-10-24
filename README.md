@@ -12,8 +12,7 @@ have a safe journey and reach where they want to go and get back whenever it is 
 
 ## Developer configuration
 
-Create a *app/gradle.properties* and add the configuration parameters
-which are exposed in *app/build.gradle*.
+Make sure the correct API configuration is set in *app/build.gradle*.
 
 
 ## License

@@ -12,8 +12,8 @@ android {
         versionCode 1
         versionName "1.0"
         // API configuration
-        buildConfigField "String", "API_BASE_URL", "\"${apiBaseUrl}\""
-        buildConfigField "String", "API_POIS_READ_PATH", "\"${apiPoisReadPath}\""
+        buildConfigField "String", "API_BASE_URL", '"http://refugeehackathon.de"'
+        buildConfigField "String", "API_POIS_READ_PATH", '"/locations.geojson"'
     }
     buildTypes {
         release {
