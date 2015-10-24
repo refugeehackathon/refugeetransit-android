@@ -1,0 +1,44 @@
+[
+    {
+        "geometry": {
+            "coordinates": [
+                53.1245,
+                7.5504
+            ],
+            "type": "Point"
+        },
+        "properties": {
+            "name": "Bahnhof",
+            "description": "Bahnhof am Standort"
+        },
+        "type": "TRAIN_STATION"
+    },
+    {
+        "geometry": {
+            "coordinates": [
+                53.4194,
+                10.3423
+            ],
+            "type": "Point"
+        },
+        "properties": {
+            "name": "Schlafplatz",
+            "description": "Gemütlicher, warmer, trockener Schlafplatz"
+        },
+        "type": "ACCOMMODATION"
+    },
+    {
+        "geometry": {
+            "coordinates": [
+                54.1657,
+                12.5917
+            ],
+            "type": "Point"
+        },
+        "properties": {
+            "name": "Infopunkt",
+            "description": "Alle Informationen"
+        },
+        "type": "RECEPTION_CENTER"
+    }
+]

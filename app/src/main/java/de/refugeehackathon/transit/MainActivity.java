@@ -93,8 +93,17 @@ public class MainActivity extends AppCompatActivity {
         final List<POI> pois = new POIProvider().getPOIS();
 
         for (POI poi : pois) {
-            final GeoPoint currentLocation = new GeoPoint(poi.latitude, poi.longitude);
-            final OverlayItem myLocationOverlayItem = new OverlayItem(poi.title, poi.description, currentLocation);
+            double latitude = poi.geometry.coordinates[0];
+            double longitude = poi.geometry.coordinates[1];
+            final GeoPoint currentLocation = new GeoPoint(latitude, longitude);
+            Properties properties = poi.properties;
+            String title = "";
+            String description = "";
+            if (properties != null) {
+                title = properties.name;
+                description = properties.description;
+            }
+            final OverlayItem myLocationOverlayItem = new OverlayItem(title, description, currentLocation);
 
             final Drawable myCurrentLocationMarker = getResources().getDrawable(getDrawableForType(poi.type));
 
