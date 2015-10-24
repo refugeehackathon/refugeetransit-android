@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int getDrawableForType(POIType type) {
         switch (type) {
-            case ACCOMODATION:
+            case ACCOMMODATION:
                 return R.drawable.ic_action_home;
             case TRAIN_STATION:
                 return R.drawable.ic_action_train;

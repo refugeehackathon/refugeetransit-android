@@ -2,6 +2,6 @@ package de.refugeehackathon.transit;
 
 public enum POIType {
     TRAIN_STATION,
-    ACCOMODATION,
+    ACCOMMODATION,
     RECEPTION_CENTER
 }
