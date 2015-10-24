@@ -4,6 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -16,8 +19,19 @@ import org.osmdroid.views.overlay.OverlayItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.refugeehackathon.transit.data.api.ApiModule;
+import de.refugeehackathon.transit.data.api.PoiService;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+
 public class MainActivity extends AppCompatActivity {
+
     private MapView mMapView;
+
+    private PoiService mPoiService;
 
     public static final GeoPoint BERLIN = new GeoPoint(52.516667, 13.383333);
 
@@ -27,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        initPoiService();
 
         mMapView = (MapView) findViewById(R.id.mapview);
         setupMapView();
@@ -82,6 +98,34 @@ public class MainActivity extends AppCompatActivity {
         final MapController mMapController = (MapController) mMapView.getController();
         mMapController.setZoom(13);
         mMapController.setCenter(BERLIN);
+
+        fetchPois();
+    }
+
+    private void initPoiService() {
+        RefugeeTransitApplication application = (RefugeeTransitApplication) getApplication();
+        ApiModule apiModule = application.getApiModule();
+        mPoiService = apiModule.providePoisService();
+    }
+
+    private void fetchPois() {
+        Call<List<POI>> readPoisCall = mPoiService.readPois();
+        readPoisCall.enqueue(new Callback<List<POI>>() {
+            @Override
+            public void onResponse(Response<List<POI>> response, Retrofit retrofit) {
+                onReadPoisSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                new Exception(t);
+            }
+        });
+    }
+
+    private void onReadPoisSuccess(List<POI> pois) {
+        // TODO Here you can use the POIs.
+        Log.d(getClass().getName(), "POIs: " + pois);
     }
 
 }

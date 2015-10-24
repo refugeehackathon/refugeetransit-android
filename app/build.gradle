@@ -10,6 +10,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        // API configuration
+        buildConfigField "String", "API_BASE_URL", "\"${apiBaseUrl}\""
+        buildConfigField "String", "API_POIS_READ_PATH", "\"${apiPoisReadPath}\""
     }
     buildTypes {
         release {
@@ -26,4 +29,6 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile 'org.osmdroid:osmdroid-android:4.3'
     compile 'org.slf4j:slf4j-android:1.7.12'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit:converter-moshi:2.0.0-beta2'
 }
