@@ -1,12 +1,15 @@
 package de.refugeehackathon.transit;
 
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -14,11 +17,14 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.refugeehackathon.transit.data.api.ApiModule;
 import de.refugeehackathon.transit.data.api.PoiService;
 import retrofit.Call;
@@ -29,7 +35,17 @@ import retrofit.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MapView mMapView;
+    @Bind(R.id.mapview)
+    MapView mMapView;
+
+    @Bind(R.id.poiTitle)
+    TextView infoTitle;
+
+    @Bind(R.id.poiDescription)
+    TextView poiDescription;
+
+    @Bind(R.id.poiInfoContainer)
+    ViewGroup infoContainer;
 
     private PoiService mPoiService;
 
@@ -39,15 +55,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         initPoiService();
-
-        mMapView = (MapView) findViewById(R.id.mapview);
         setupMapView();
-
         addMarkers();
+
+        mMapView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                infoContainer.setVisibility(View.GONE);
+                return false;
+            }
+        });
     }
 
     private int getDrawableForType(POIType type) {
@@ -71,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
         for (POI poi : pois) {
             final GeoPoint currentLocation = new GeoPoint(poi.latitude, poi.longitude);
             final OverlayItem myLocationOverlayItem = new OverlayItem(poi.title, poi.description, currentLocation);
+
             final Drawable myCurrentLocationMarker = getResources().getDrawable(getDrawableForType(poi.type));
+
             myLocationOverlayItem.setMarker(myCurrentLocationMarker);
             items.add(myLocationOverlayItem);
         }
@@ -79,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         ItemizedIconOverlay currentLocationOverlay = new ItemizedIconOverlay<>(items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        infoContainer.setVisibility(View.VISIBLE);
+                        infoTitle.setText(item.getTitle());
+                        poiDescription.setText(item.getSnippet());
                         return true;
                     }
 
@@ -86,11 +115,23 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 }, resourceProxy);
+
         mMapView.getOverlays().add(currentLocationOverlay);
+        mMapView.getOverlays().add(new Overlay(this) {
+            @Override
+            protected void draw(Canvas c, MapView osmv, boolean shadow) {
+
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
+                infoContainer.setVisibility(View.GONE);
+                return super.onSingleTapConfirmed(e, mapView);
+            }
+        });
     }
 
     private void setupMapView() {
-        mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setUseDataConnection(true);
         mMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);
