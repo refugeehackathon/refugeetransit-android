@@ -22,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mMapView = (MapView) findViewById(R.id.mapview);
+        mMapView.setBuiltInZoomControls(true);
+        mMapView.setMultiTouchControls(true);
+        mMapView.setUseDataConnection(true);
         mMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);
 
         /*
-        mMapView.setBuiltInZoomControls(true);
         mMapController = (MapController) mMapView.getController();
         mMapController.setZoom(13);
         GeoPoint gPt = new GeoPoint(51500000, -150000);
