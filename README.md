@@ -1,3 +1,5 @@
+[![Build Status](https://snap-ci.com/refugeehackathon/refugeetransit-android/branch/master/build_image)](https://snap-ci.com/refugeehackathon/refugeetransit-android/branch/master)
+
 # RefugeeTransit
 
 An Android application to help refugees with their transit.
