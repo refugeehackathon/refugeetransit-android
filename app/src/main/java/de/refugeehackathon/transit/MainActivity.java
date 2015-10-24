@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mMapView = (MapView) findViewById(R.id.mapview);
-        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);
 
         /*
         mMapView.setBuiltInZoomControls(true);
