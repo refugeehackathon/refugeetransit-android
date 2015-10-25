@@ -102,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return R.drawable.ic_action_home;
             case TRAIN_STATION:
                 return R.drawable.ic_action_train;
-            default:
             case RECEPTION_CENTER:
                 return R.drawable.ic_action_bell;
+            case UNKNOWN:
+            default:
+                return R.drawable.ic_action_location;
         }
     }
 
