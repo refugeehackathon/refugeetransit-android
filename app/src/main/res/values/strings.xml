@@ -4,5 +4,6 @@
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
     <string name="map">Map</string>
+    <string name="faq">Transit-FAQ</string>
     <string name="about">About</string>
 </resources>

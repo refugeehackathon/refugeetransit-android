@@ -8,6 +8,11 @@
             android:title="@string/map" />
 
         <item
+            android:id="@+id/navigation_faq"
+            android:icon="@drawable/ic_action_bulb"
+            android:title="@string/faq" />
+
+        <item
             android:id="@+id/navigation_about"
             android:icon="@drawable/ic_action_info"
             android:title="@string/about" />
