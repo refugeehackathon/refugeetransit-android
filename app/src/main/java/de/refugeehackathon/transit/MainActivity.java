@@ -3,10 +3,12 @@ package de.refugeehackathon.transit;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +36,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.mapview)
     MapView mMapView;
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.drawer_navigation)
+    NavigationView navigationView;
 
     private PoiService mPoiService;
 
@@ -85,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         final ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
         super.onPostCreate(savedInstanceState);
     }
 
@@ -189,4 +196,9 @@ public class MainActivity extends AppCompatActivity {
         addMarkers(pois);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        item.setChecked(true);
+        return false;
+    }
 }
