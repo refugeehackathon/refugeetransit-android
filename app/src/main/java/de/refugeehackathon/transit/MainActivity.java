@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -134,8 +135,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         infoContainer.setVisibility(View.VISIBLE);
-                        infoTitle.setText(item.getTitle());
-                        poiDescription.setText(item.getSnippet());
+                        if (item.getTitle()!=null) {
+                            infoTitle.setText(Html.fromHtml(item.getTitle()));
+                        }
+                        if (item.getSnippet()!=null) {
+                            poiDescription.setText(Html.fromHtml(item.getSnippet()));
+                        }
                         return true;
                     }
 
