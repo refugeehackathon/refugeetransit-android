@@ -13,7 +13,7 @@ public class FAQFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.content_about, container, false);
+        View view = inflater.inflate(R.layout.content_faq, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

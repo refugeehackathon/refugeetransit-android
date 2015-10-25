@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.drawer_layout)
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar);
 
-        navigateTo(R.id.navigation_map);
+        navigateTo(R.id.navigation_about);
     }
 
     private void navigateTo(@IdRes int navId) {
