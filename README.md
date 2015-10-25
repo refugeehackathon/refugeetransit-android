@@ -15,6 +15,14 @@ have a safe journey and reach where they want to go and get back whenever it is 
 Make sure the correct API configuration is set in *app/build.gradle*.
 
 
+## Roadmap
+
+* [x] Map showing locations interesting to refugees
+* [x] Detail view to show information specific to the selected location
+* [ ] About dialog
+* [ ] tbc.
+
+
 ## License
 
 * The source code of this app is released under the [AGPL 3.0][agpl30]
