@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Throwable t) {
-                new Exception(t);
+                t.printStackTrace();
             }
         });
     }
