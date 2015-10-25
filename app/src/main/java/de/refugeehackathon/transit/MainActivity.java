@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar);
 
-        navigateTo(R.id.navigation_about);
+        navigateTo(R.id.navigation_map);
     }
 
     private void navigateTo(@IdRes int navId) {
