@@ -76,13 +76,15 @@ public class MapFragment extends Fragment {
             Properties properties = poi.properties;
             String title = "";
             String description = "";
+            POIType poitype = POIType.UNKNOWN;
             if (properties != null) {
                 title = properties.name;
                 description = properties.description;
+                poitype = properties.poitype;
             }
             final OverlayItem myLocationOverlayItem = new OverlayItem(title, description, currentLocation);
 
-            final Drawable myCurrentLocationMarker = getResources().getDrawable(getDrawableForType(poi.type));
+            final Drawable myCurrentLocationMarker = getResources().getDrawable(getDrawableForType(poitype));
 
             myLocationOverlayItem.setMarker(myCurrentLocationMarker);
             items.add(myLocationOverlayItem);
