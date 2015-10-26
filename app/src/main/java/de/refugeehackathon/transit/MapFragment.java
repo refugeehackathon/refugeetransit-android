@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -94,11 +95,20 @@ public class MapFragment extends Fragment {
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         infoContainer.setVisibility(View.VISIBLE);
-                        if (item.getTitle()!=null) {
-                            infoTitle.setText(Html.fromHtml(item.getTitle()));
+                        String title = item.getTitle();
+                        if (TextUtils.isEmpty(title)) {
+                            infoTitle.setVisibility(View.GONE);
+
+                        } else {
+                            infoTitle.setText(Html.fromHtml(title));
+                            infoTitle.setVisibility(View.VISIBLE);
                         }
-                        if (item.getSnippet()!=null) {
-                            poiDescription.setText(Html.fromHtml(item.getSnippet()));
+                        String description = item.getSnippet();
+                        if (TextUtils.isEmpty(description)) {
+                            poiDescription.setVisibility(View.GONE);
+                        } else {
+                            poiDescription.setText(Html.fromHtml(description));
+                            poiDescription.setVisibility(View.VISIBLE);
                         }
                         return true;
                     }
