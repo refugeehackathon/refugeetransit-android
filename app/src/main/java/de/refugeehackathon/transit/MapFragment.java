@@ -79,7 +79,7 @@ public class MapFragment extends Fragment {
             String description = "";
             POIType poitype = POIType.UNKNOWN;
             if (properties != null) {
-                title = properties.name;
+                title = properties.Name;
                 description = properties.description;
                 poitype = properties.poitype;
             }
