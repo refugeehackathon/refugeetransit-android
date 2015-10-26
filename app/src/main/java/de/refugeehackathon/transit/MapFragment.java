@@ -3,6 +3,7 @@ package de.refugeehackathon.transit;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
@@ -46,6 +48,8 @@ public class MapFragment extends Fragment {
 
     @Bind(R.id.poiInfoContainer)
     ViewGroup infoContainer;
+
+    MapController mMapController;
 
     private PoiService mPoiService;
     public static final GeoPoint BERLIN = new GeoPoint(52.516667, 13.383333);
@@ -138,13 +142,12 @@ public class MapFragment extends Fragment {
         mMapView.setUseDataConnection(true);
         mMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);
 
-        final MapController mMapController = (MapController) mMapView.getController();
+        mMapController = (MapController) mMapView.getController();
         mMapController.setZoom(13);
         mMapController.setCenter(BERLIN);
 
         fetchPois();
     }
-
 
     private int getDrawableForType(POIType type) {
         switch (type) {
@@ -177,9 +180,13 @@ public class MapFragment extends Fragment {
 
     private void onReadPoisSuccess(List<POI> pois) {
         addMarkers(pois);
+        BoundingBoxE6 boundingBox = BoundingBoxE6.fromGeoPoints(getCoordinatesAsGeoPoints(pois));
+        zoomToBoundingBox(boundingBox);
     }
 
-
+    private void zoomToBoundingBox(@NonNull BoundingBoxE6 boundingBox) {
+        mMapController.zoomToSpan(boundingBox);
+    }
 
     private void initPoiService() {
         RefugeeTransitApplication application = (RefugeeTransitApplication) getActivity().getApplication();
@@ -187,5 +194,12 @@ public class MapFragment extends Fragment {
         mPoiService = apiModule.providePoisService();
     }
 
+    private ArrayList<? extends GeoPoint> getCoordinatesAsGeoPoints(@NonNull List<POI> pois) {
+        ArrayList<GeoPoint> geoPoints = new ArrayList<>(pois.size());
+        for (POI poi : pois) {
+            geoPoints.add(poi.geometry.getCoordinates());
+        }
+        return geoPoints;
+    }
 
 }
