@@ -1,5 +1,7 @@
 package de.refugeehackathon.transit;
 
+import android.support.annotation.FloatRange;
+
 public class Geometry {
     public final double[] coordinates;
 
@@ -7,11 +9,15 @@ public class Geometry {
         this.coordinates = coordinates;
     }
 
-    public double getLongitude() {
+    public
+    @FloatRange(from = -180, to = 180)
+    double getLongitude() {
         return coordinates[0];
     }
 
-    public double getLatitude() {
+    public
+    @FloatRange(from = -90, to = 90)
+    double getLatitude() {
         return coordinates[1];
     }
 
