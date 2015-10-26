@@ -70,7 +70,7 @@ public class MapFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void addMarkers(List<POI> pois) {
+    private void addMarkers(@NonNull List<POI> pois) {
         final DefaultResourceProxyImpl resourceProxy = new DefaultResourceProxyImpl(getActivity().getApplicationContext());
         final ArrayList<OverlayItem> items = new ArrayList<>();
 
@@ -178,7 +178,7 @@ public class MapFragment extends Fragment {
         });
     }
 
-    private void onReadPoisSuccess(List<POI> pois) {
+    private void onReadPoisSuccess(@NonNull List<POI> pois) {
         addMarkers(pois);
         BoundingBoxE6 boundingBox = BoundingBoxE6.fromGeoPoints(getCoordinatesAsGeoPoints(pois));
         zoomToBoundingBox(boundingBox);
