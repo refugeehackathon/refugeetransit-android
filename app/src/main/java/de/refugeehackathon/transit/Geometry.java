@@ -6,4 +6,13 @@ public class Geometry {
     public Geometry(double[] coordinates) {
         this.coordinates = coordinates;
     }
+
+    public double getLongitude() {
+        return coordinates[0];
+    }
+
+    public double getLatitude() {
+        return coordinates[1];
+    }
+
 }

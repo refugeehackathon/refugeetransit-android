@@ -70,8 +70,8 @@ public class MapFragment extends Fragment {
         final ArrayList<OverlayItem> items = new ArrayList<>();
 
         for (POI poi : pois) {
-            double latitude = poi.geometry.coordinates[0];
-            double longitude = poi.geometry.coordinates[1];
+            double latitude = poi.geometry.getLatitude();
+            double longitude = poi.geometry.getLongitude();
             final GeoPoint currentLocation = new GeoPoint(latitude, longitude);
             Properties properties = poi.properties;
             String title = "";
