@@ -80,7 +80,7 @@ public class MapFragment extends Fragment {
             POIType poitype = POIType.UNKNOWN;
             if (properties != null) {
                 title = properties.Name;
-                description = properties.description;
+                description = StringSanitizer.getSanitizeString(properties.description);
                 poitype = properties.poitype;
             }
             final OverlayItem myLocationOverlayItem = new OverlayItem(title, description, currentLocation);
