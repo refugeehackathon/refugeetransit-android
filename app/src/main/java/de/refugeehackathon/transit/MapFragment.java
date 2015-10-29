@@ -3,8 +3,10 @@ package de.refugeehackathon.transit;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
@@ -46,6 +49,8 @@ public class MapFragment extends Fragment {
     @Bind(R.id.poiInfoContainer)
     ViewGroup infoContainer;
 
+    MapController mMapController;
+
     private PoiService mPoiService;
     public static final GeoPoint BERLIN = new GeoPoint(52.516667, 13.383333);
 
@@ -65,24 +70,26 @@ public class MapFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void addMarkers(List<POI> pois) {
+    private void addMarkers(@NonNull List<POI> pois) {
         final DefaultResourceProxyImpl resourceProxy = new DefaultResourceProxyImpl(getActivity().getApplicationContext());
         final ArrayList<OverlayItem> items = new ArrayList<>();
 
         for (POI poi : pois) {
-            double latitude = poi.geometry.coordinates[0];
-            double longitude = poi.geometry.coordinates[1];
+            double latitude = poi.geometry.getLatitude();
+            double longitude = poi.geometry.getLongitude();
             final GeoPoint currentLocation = new GeoPoint(latitude, longitude);
             Properties properties = poi.properties;
             String title = "";
             String description = "";
+            POIType poitype = POIType.UNKNOWN;
             if (properties != null) {
-                title = properties.name;
-                description = properties.description;
+                title = properties.Name;
+                description = StringSanitizer.getSanitizeString(properties.description);
+                poitype = properties.poitype;
             }
             final OverlayItem myLocationOverlayItem = new OverlayItem(title, description, currentLocation);
 
-            final Drawable myCurrentLocationMarker = getResources().getDrawable(getDrawableForType(poi.type));
+            final Drawable myCurrentLocationMarker = getResources().getDrawable(getDrawableForType(poitype));
 
             myLocationOverlayItem.setMarker(myCurrentLocationMarker);
             items.add(myLocationOverlayItem);
@@ -92,11 +99,20 @@ public class MapFragment extends Fragment {
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         infoContainer.setVisibility(View.VISIBLE);
-                        if (item.getTitle()!=null) {
-                            infoTitle.setText(Html.fromHtml(item.getTitle()));
+                        String title = item.getTitle();
+                        if (TextUtils.isEmpty(title)) {
+                            infoTitle.setVisibility(View.GONE);
+
+                        } else {
+                            infoTitle.setText(Html.fromHtml(title));
+                            infoTitle.setVisibility(View.VISIBLE);
                         }
-                        if (item.getSnippet()!=null) {
-                            poiDescription.setText(Html.fromHtml(item.getSnippet()));
+                        String description = item.getSnippet();
+                        if (TextUtils.isEmpty(description)) {
+                            poiDescription.setVisibility(View.GONE);
+                        } else {
+                            poiDescription.setText(Html.fromHtml(description));
+                            poiDescription.setVisibility(View.VISIBLE);
                         }
                         return true;
                     }
@@ -126,13 +142,12 @@ public class MapFragment extends Fragment {
         mMapView.setUseDataConnection(true);
         mMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);
 
-        final MapController mMapController = (MapController) mMapView.getController();
+        mMapController = (MapController) mMapView.getController();
         mMapController.setZoom(13);
         mMapController.setCenter(BERLIN);
 
         fetchPois();
     }
-
 
     private int getDrawableForType(POIType type) {
         switch (type) {
@@ -163,11 +178,15 @@ public class MapFragment extends Fragment {
         });
     }
 
-    private void onReadPoisSuccess(List<POI> pois) {
+    private void onReadPoisSuccess(@NonNull List<POI> pois) {
         addMarkers(pois);
+        BoundingBoxE6 boundingBox = BoundingBoxE6.fromGeoPoints(getCoordinatesAsGeoPoints(pois));
+        zoomToBoundingBox(boundingBox);
     }
 
-
+    private void zoomToBoundingBox(@NonNull BoundingBoxE6 boundingBox) {
+        mMapController.zoomToSpan(boundingBox);
+    }
 
     private void initPoiService() {
         RefugeeTransitApplication application = (RefugeeTransitApplication) getActivity().getApplication();
@@ -175,5 +194,12 @@ public class MapFragment extends Fragment {
         mPoiService = apiModule.providePoisService();
     }
 
+    private ArrayList<? extends GeoPoint> getCoordinatesAsGeoPoints(@NonNull List<POI> pois) {
+        ArrayList<GeoPoint> geoPoints = new ArrayList<>(pois.size());
+        for (POI poi : pois) {
+            geoPoints.add(poi.geometry.getCoordinates());
+        }
+        return geoPoints;
+    }
 
 }

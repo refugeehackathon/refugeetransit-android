@@ -9,10 +9,20 @@ aims to provide helpful information about routes, supporting organizations or in
 which can be found in countries on the way. Alltogether, the app wants to help that people
 have a safe journey and reach where they want to go and get back whenever it is safe.
 
+![Screenshot of the application][app-screenshot]
+
 
 ## Developer configuration
 
 Make sure the correct API configuration is set in *app/build.gradle*.
+
+
+## Roadmap
+
+* [x] Map showing locations interesting to refugees
+* [x] Detail view to show information specific to the selected location
+* [ ] About dialog
+* [ ] tbc.
 
 
 ## License
@@ -21,5 +31,6 @@ Make sure the correct API configuration is set in *app/build.gradle*.
 * Assets in this repository are released under the [Attribution-ShareAlike 4.0 International CC license][ccsa40]
 
 
+[app-screenshot]: https://raw.githubusercontent.com/refugeehackathon/refugeetransit-design/master/press/android/MigrationGuide-Android-500.png
 [agpl30]: https://www.gnu.org/licenses/agpl-3.0.html
 [ccsa40]: http://creativecommons.org/licenses/by-sa/4.0/
