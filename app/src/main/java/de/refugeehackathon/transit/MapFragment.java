@@ -170,9 +170,11 @@ public class MapFragment extends Fragment {
     }
 
     private void onReadPoisSuccess(@NonNull List<POI> pois) {
-        addMarkers(pois);
-        BoundingBoxE6 boundingBox = BoundingBoxE6.fromGeoPoints(getCoordinatesAsGeoPoints(pois));
-        zoomToBoundingBox(boundingBox);
+        if (getActivity() != null) {
+            addMarkers(pois);
+            BoundingBoxE6 boundingBox = BoundingBoxE6.fromGeoPoints(getCoordinatesAsGeoPoints(pois));
+            zoomToBoundingBox(boundingBox);
+        }
     }
 
     private void zoomToBoundingBox(@NonNull BoundingBoxE6 boundingBox) {
