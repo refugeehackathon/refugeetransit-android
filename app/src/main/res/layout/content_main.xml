@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapview"
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        tools:context=".MainActivity"
-        tools:showIn="@layout/activity_main" />
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoPanelHeight="68dp"
+        sothree:umanoShadowHeight="4dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:id="@+id/poiInfoContainer"
-        android:visibility="gone"
-        tools:background="@android:color/holo_red_light"
-        tools:visibility="visible">
-
-
-    <LinearLayout
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapview"
             android:layout_width="match_parent"
-            android:layout_height="96dp"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            tools:showIn="@layout/activity_main" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
             tools:background="@android:color/holo_red_dark">
@@ -38,15 +37,19 @@
                 tools:background="@android:color/holo_green_dark"
                 tools:text="Title" />
 
-            <TextView
-                android:id="@+id/poiDescription"
-                style="@style/TextAppearance.AppCompat.Small"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:background="@android:color/holo_green_light"
-                tools:text="Usually a longer text with multiple paragraphs, white space and line breaks." />
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/poiDescription"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:background="@android:color/holo_green_light"
+                    tools:text="Usually a longer text with multiple paragraphs, white space and line breaks." />
+            </ScrollView>
         </LinearLayout>
 
-    </ScrollView>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </LinearLayout>

@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBoxE6;
@@ -46,8 +48,8 @@ public class MapFragment extends Fragment {
     @Bind(R.id.poiDescription)
     TextView poiDescription;
 
-    @Bind(R.id.poiInfoContainer)
-    ViewGroup infoContainer;
+    @Bind(R.id.sliding_layout)
+    SlidingUpPanelLayout sup;
 
     MapController mMapController;
 
@@ -59,6 +61,9 @@ public class MapFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.content_main, container, false);
         ButterKnife.bind(this, view);
+
+        sup.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
         return view;
     }
 
@@ -98,14 +103,11 @@ public class MapFragment extends Fragment {
         ItemizedIconOverlay currentLocationOverlay = new ItemizedIconOverlay<>(items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        infoContainer.setVisibility(View.VISIBLE);
-                        String title = item.getTitle();
-                        if (TextUtils.isEmpty(title)) {
-                            infoTitle.setVisibility(View.GONE);
 
-                        } else {
-                            infoTitle.setText(Html.fromHtml(title));
-                            infoTitle.setVisibility(View.VISIBLE);
+                        sup.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                        if (item.getTitle() != null) {
+                            infoTitle.setText(Html.fromHtml(item.getTitle()));
                         }
                         String description = item.getSnippet();
                         if (TextUtils.isEmpty(description)) {
@@ -123,18 +125,7 @@ public class MapFragment extends Fragment {
                 }, resourceProxy);
 
         mMapView.getOverlays().add(currentLocationOverlay);
-        mMapView.getOverlays().add(new Overlay(getContext()) {
-            @Override
-            protected void draw(Canvas c, MapView osmv, boolean shadow) {
-
-            }
-
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
-                infoContainer.setVisibility(View.GONE);
-                return super.onSingleTapConfirmed(e, mapView);
-            }
-        });
+        mMapView.getOverlays().add(new HideSlidingUpPanelOnMapClickOverlay());
     }
 
     private void setupMapView() {
@@ -202,4 +193,20 @@ public class MapFragment extends Fragment {
         return geoPoints;
     }
 
+    private class HideSlidingUpPanelOnMapClickOverlay extends Overlay {
+        public HideSlidingUpPanelOnMapClickOverlay() {
+            super(MapFragment.this.getContext());
+        }
+
+        @Override
+        protected void draw(Canvas c, MapView osmv, boolean shadow) {
+
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
+            sup.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            return super.onSingleTapConfirmed(e, mapView);
+        }
+    }
 }
