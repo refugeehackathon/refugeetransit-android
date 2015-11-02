@@ -3,7 +3,7 @@ package de.refugeehackathon.transit.data.api;
 import java.util.List;
 
 import de.refugeehackathon.transit.BuildConfig;
-import de.refugeehackathon.transit.POI;
+import de.refugeehackathon.transit.data.models.POI;
 import retrofit.Call;
 import retrofit.http.GET;
 
