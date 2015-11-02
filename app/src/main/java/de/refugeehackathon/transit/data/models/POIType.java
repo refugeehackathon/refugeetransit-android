@@ -1,4 +1,4 @@
-package de.refugeehackathon.transit;
+package de.refugeehackathon.transit.data.models;
 
 public enum POIType {
     TRAIN_STATION,

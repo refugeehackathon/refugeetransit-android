@@ -3,6 +3,11 @@ package de.refugeehackathon.transit;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.refugeehackathon.transit.data.models.Geometry;
+import de.refugeehackathon.transit.data.models.POI;
+import de.refugeehackathon.transit.data.models.POIType;
+import de.refugeehackathon.transit.data.models.Properties;
+
 public class POIProvider {
 
     public List<POI> getPOIS() {
